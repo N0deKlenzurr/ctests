@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include "binarysearch.h"
 
 int binary_search(int dataset[], int lowerb, int upperb, int target)
 {

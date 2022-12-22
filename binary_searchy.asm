@@ -1,24 +1,35 @@
 .data
-array: .quad 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+array: dq 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 
 .text
 .globl binary_search
 binary_search:
-  pushq %rbp        # Save old base pointer
-  movq %rsp, %rbp   # Set new base pointer
+  push rbp        ; Save old base pointer
+  mov rsp, rbp    ; Set new base pointer
 
-  movq 16(%rbp), %rdi # Load lowerb
-  movq 24(%rbp), %rsi # Load upperb
-  addq %rdi, %rsi    # Calculate mid
-  shrq $1, %rsi       # Divide by 2
-  cmpq %rdi, %rsi    # Compare lowerb and mid
-  jge end            # Jump to end if lowerb >= mid
-  movq 28(%rbp), %rdx # Load target
-  movq 8(%rbp), %rcx  # Load array
-  movq (%rcx,%rsi,8), %r8 # Load array[mid]
-  cmpq %r8, %rdx     # Compare array[mid] and target
-  je end             # Jump to end if equal
-  jg greater         # Jump to greater if array[mid] > target
+  mov edi, [rbp+16] ; Load lowerb
+  mov esi, [rbp+24] ; Load upperb
+  add esi, edi     ; Calculate mid
+  shr esi, 1       ; Divide by 2
+  cmp edi, esi     ; Compare lowerb and mid
+  jge end          ; Jump to end if lowerb >= mid
+  mov edx, [rbp+28] ; Load target
+  mov ecx, [rbp+8]  ; Load array
+  mov r8d, [rcx+rsi*4] ; Load array[mid]
+  cmp edx, r8d     ; Compare array[mid] and target
+  je end           ; Jump to end if equal
+  jg greater       ; Jump to greater if array[mid] > target
 
 less:
-  movq %rsi, %rdi
+  mov esi, edi
+  sub esi, 1
+  jmp call
+
+greater:
+  mov esi, edi
+  add esi, 1
+
+call:
+  mov edi, esi     ; Update lowerb
+  mov esi, [rbp+24] ; Load upperb
+  mov edx, [rbp+28]
