@@ -41,7 +41,7 @@ int map_to_sets(int addr) {
 }
 
 void init_cache(cache_t *cache) {
-
+	printf("[*] Initializing Cache Memory!\n")
 	for (int i = 0; i < NUM_SETS; i++) {
 		cache_set_t* set = &cache->sets[i];
 
@@ -63,9 +63,12 @@ void access_memory(cache_t* cache, int addr)
 	cache_set_t* set = &cache->sets[set_index];
 
 	int hit = 0;
+
+	printf("[+] Accessing Cache Memory!n\n");
 	for (int i = 0; i < NUM_LINES_PER_SET; i++) {
 		cache_line_t* line = &set->lines[i];
 
+		printf("[!] Checking Cache line %d\n", i);
 		if (line->valid && line->tag == addr >> 6) {
 			set->lru = (i + NUM_LINES_PER_SET - 1) % NUM_LINES_PER_SET;
 			hit = 1;
@@ -74,6 +77,7 @@ void access_memory(cache_t* cache, int addr)
 	}
 
 	if (!hit) {
+		printf("[!] Cache Miss Recorded!\n");
 		cache_line_t* line = &set->lines[set->lru];
 		line->valid = 1;
 		line->tag = addr >> 6;
@@ -87,7 +91,7 @@ int main(int argc, char* argv[])
 	cache_t cache;
 	init_cache(&cache);
 	int addr = 896456;
-	
+
 	map_to_sets(addr);
 
 	for (int i = 0; i < 1000; i++) {
