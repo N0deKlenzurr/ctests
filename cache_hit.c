@@ -49,6 +49,8 @@ void init_cache(cache_t *cache) {
 		}
 		set->lru = 0;
 	}
+
+	cache->map = map_to_sets;
 }
 
 
@@ -76,12 +78,16 @@ void access_memory(cache_t* cache, int addr)
 	}
 }
 
+int map_to_sets(int addr) {
+	return addr % NUM_SETS;
+}
+
 int main()
 {
 	cache_t cache;
 	init_cache(&cache);
 
-	cache.map = [](int addr) { return addr % NUM_SETS};
+	cache.map_to_sets(addr);
 
 	for (int i = 0; i < 1000; i++) {
 		access_memory(&cache, 0);
