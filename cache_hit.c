@@ -41,7 +41,7 @@ int map_to_sets(int addr) {
 }
 
 void init_cache(cache_t *cache) {
-	printf("[*] Initializing Cache Memory!\n")
+	printf("[*] Initializing Cache Memory!\n");
 	for (int i = 0; i < NUM_SETS; i++) {
 		cache_set_t* set = &cache->sets[i];
 
