@@ -86,7 +86,8 @@ int main(int argc, char* argv[])
 {
 	cache_t cache;
 	init_cache(&cache);
-
+	int addr = 896456;
+	
 	map_to_sets(addr);
 
 	for (int i = 0; i < 1000; i++) {
