@@ -36,6 +36,9 @@ typedef struct {
 	int (*map)(int addr);
 } cache_t;
 
+int map_to_sets(int addr) {
+	return addr % NUM_SETS;
+}
 
 void init_cache(cache_t *cache) {
 
@@ -78,16 +81,13 @@ void access_memory(cache_t* cache, int addr)
 	}
 }
 
-int map_to_sets(int addr) {
-	return addr % NUM_SETS;
-}
 
-int main()
+int main(int argc, char* argv[])
 {
 	cache_t cache;
 	init_cache(&cache);
 
-	cache.map_to_sets(addr);
+	map_to_sets(addr);
 
 	for (int i = 0; i < 1000; i++) {
 		access_memory(&cache, 0);
