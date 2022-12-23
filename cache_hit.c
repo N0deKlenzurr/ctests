@@ -1,6 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #define CACHE_SIZE 1024
 #define BLOCK_SIZE 64
 #define NUM_SETS 16
+#define NUM_LINES_PER_SET 10
 
 typedef struct {
 	int tag;
