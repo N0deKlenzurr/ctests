@@ -1,3 +1,16 @@
+/*
+
+debug this program
+------------------
+
+gdb <program name>
+break access_memory
+run
+next
+print $eax
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -68,6 +81,12 @@ int main()
 	cache_t cache;
 	init_cache(&cache);
 
-	cache.map = [](int addr) { return addr % NUM_SETS}
+	cache.map = [](int addr) { return addr % NUM_SETS};
+
+	for (int i = 0; i < 1000; i++) {
+		access_memory(&cache, 0);
+	}
+
+	return 0;
 }
 
